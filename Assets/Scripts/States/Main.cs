@@ -13,4 +13,11 @@ public class Main : MonoBehaviour {
 	void Update () {
 		
 	}
+
+
+	public void SimonSays() {
+		StateManager.instance.ChangeState(GameStates.Play);
+	}
+
+	
 }
