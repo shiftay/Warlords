@@ -1,22 +1,26 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ReorderPuzzle : MonoBehaviour {
 
 	public GameObject[] boxes;
 	public Vector2[] startPositions;
+
+	public Vector2[] puzzleStarts;
 	public MousedownScript mousedown;
 	public List<GameObject> puzDelim = new List<GameObject>();
 	public GameObject[] currentPuz;
 	public float timer = 0f;
+	public int puzzleSize;
+	public GameObject[] answerKey;
+	public string alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+	public string numbers = "123456789";
 
 	// Use this for initialization
 	void Start () {
-		startPositions = new Vector2[] { boxes[0].transform.position, boxes[1].transform.position, boxes[2].transform.position, boxes[3].transform.position };
-		foreach(GameObject box in boxes) {
-			puzDelim.Add(box);
-		}
+		startPositions = new Vector2[] { boxes[0].transform.position, boxes[1].transform.position, boxes[2].transform.position, boxes[3].transform.position, boxes[4].transform.position, boxes[5].transform.position };
 
 	}
 
@@ -25,18 +29,46 @@ public class ReorderPuzzle : MonoBehaviour {
 	/// </summary>
 	void OnEnable()
 	{
-		timer = 0;
-		currentPuz = new GameObject[boxes.Length];
+		if(StateManager.instance != null && StateManager.instance.currentState == GameStates.Play) {
+			timer = 0;
+
+			puzzleSize = Random.Range(3, 7);
+
+			currentPuz = new GameObject[puzzleSize];
+			
+			for(int i = puzzleSize; i < boxes.Length; i++) {
+				boxes[i].SetActive(false);
+			}
+			
+
+			string puzzle = alphabet.Substring(Random.Range(0, 25-puzzleSize), puzzleSize);
+
+			for(int i = 0; i < puzzleSize; i++) {
+				boxes[i].GetComponentInChildren<Text>().text = puzzle[i].ToString();
+			}
+
+			answerKey = new GameObject[puzzleSize];
+			realign();
+			answerKey = currentPuz;
+			mixEmUp();
+
+		}
 	}
 	
 	// Update is called once per frame
 	void Update () {
 		timer += Time.deltaTime;
 		if(!mousedown.draggingItem && !mousedown.reorderPuz) {
-
-			//CHECK IF THEY HAVE WON
 			alignGrid();
+			if(GameWon(currentPuz, answerKey)) {
+				Debug.Log("WINNER!");
+				//TODO: Win
+			}
 
+
+			if(timer > 50) {
+				//TODO : YOU LOSE
+			}
 
 		}
 
@@ -54,9 +86,9 @@ public class ReorderPuzzle : MonoBehaviour {
 
 
 	void alignGrid() {
-		GameObject[] holder = new GameObject[boxes.Length];
- 		for(int i = 0; i < boxes.Length; i++) {
-			 for(int x = 0; x < boxes.Length; x++) {
+		GameObject[] holder = new GameObject[puzzleSize];
+ 		for(int i = 0; i < puzzleSize; i++) {
+			 for(int x = 0; x < puzzleSize; x++) {
 				if(V2Equal((Vector2)boxes[i].transform.position, startPositions[x])) {
 					holder[x] = boxes[i];
 				}
@@ -73,9 +105,9 @@ public class ReorderPuzzle : MonoBehaviour {
 
 
 	void realign() {
-		GameObject[] holder = new GameObject[boxes.Length];
- 		for(int i = 0; i < boxes.Length; i++) {
-			 for(int x = 0; x < boxes.Length; x++) {
+		GameObject[] holder = new GameObject[puzzleSize];
+ 		for(int i = 0; i < puzzleSize; i++) {
+			 for(int x = 0; x < puzzleSize; x++) {
 				if(V2Equal((Vector2)boxes[i].transform.position, startPositions[x])) {
 					holder[x] = boxes[i];
 				}
@@ -86,8 +118,6 @@ public class ReorderPuzzle : MonoBehaviour {
 	}
 
 	void OutOfPlace() {
-
-		//TODO: Wrap this in a if none are null brace.
 		int indexOfoutofPlace = -1;
 		for(int i = 0; i < currentPuz.Length; i++) {
 			if(currentPuz[i] == null) {
@@ -114,7 +144,7 @@ public class ReorderPuzzle : MonoBehaviour {
 			} else {
 				List<float> distance = new List<float>();
 
-				for(int i = 0; i < startPositions.Length; i++) {
+				for(int i = 0; i < puzzleSize; i++) {
 					distance.Add(Mathf.Abs(boxes[indOfOOPBOX].transform.position.x - startPositions[i].x));
 				}
 
@@ -141,14 +171,40 @@ public class ReorderPuzzle : MonoBehaviour {
 			}
 		
 		}
-		// puzDelim.Clear();
-		// foreach(GameObject box in boxes) {
-		// 	puzDelim.Add(box);
-		// }
 
 	}
 
 	public bool V2Equal(Vector2 a, Vector2 b){
 		return Vector2.SqrMagnitude(a - b) < 0.0001;
 	}
+
+	bool GameWon(GameObject[] a, GameObject[] b) {
+		bool retVal = true;
+
+		for(int i = 0; i < a.Length; i++) {
+			if(a[i] != b[i]) {
+				retVal = false;
+			}
+		}
+		
+		return retVal;
+	}
+
+
+	void mixEmUp() {
+		List<int> used = new List<int>();
+
+
+		for(int i = 0; i < puzzleSize; i++) {
+			int x = 0;	
+			do {
+				x = Random.Range(0, puzzleSize);
+			} while (used.Contains(x));
+
+			boxes[i].transform.position = startPositions[x];
+			used.Add(x);
+		}
+
+ 	}
+
 }
