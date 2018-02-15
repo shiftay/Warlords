@@ -194,16 +194,22 @@ public class ReorderPuzzle : MonoBehaviour {
 	void mixEmUp() {
 		List<int> used = new List<int>();
 
+		
+			for(int i = 0; i < puzzleSize; i++) {
+				int x = 0;	
+				do {
+					x = Random.Range(0, puzzleSize);
+				} while (used.Contains(x));
 
-		for(int i = 0; i < puzzleSize; i++) {
-			int x = 0;	
-			do {
-				x = Random.Range(0, puzzleSize);
-			} while (used.Contains(x));
-
-			boxes[i].transform.position = startPositions[x];
-			used.Add(x);
+				boxes[i].transform.position = startPositions[x];
+				used.Add(x);
+			}
+		realign();
+		//TODO: THIS COULD BE AN INFINITE LOOPS
+		if(GameWon(currentPuz, answerKey)) {
+			mixEmUp();
 		}
+
 
  	}
 

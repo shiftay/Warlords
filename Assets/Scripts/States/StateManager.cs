@@ -12,6 +12,8 @@ public class StateManager : MonoBehaviour {
 	public GameStates previousState;
 	public static StateManager instance; 
 
+	public bool actualStartup = false;
+
 	// Use this for initialization
 	void Start () {
 		instance = this;
@@ -19,9 +21,11 @@ public class StateManager : MonoBehaviour {
 			states.Add(transform.GetChild(i).gameObject);
 		}
 
-		// foreach (GameObject states in states) {
-		// 	states.SetActive(false);
-		// }
+		if(actualStartup) {
+			foreach (GameObject states in states) {
+				states.SetActive(false);
+			}
+		}
 
 
 

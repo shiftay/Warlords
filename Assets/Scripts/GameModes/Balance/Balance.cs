@@ -8,6 +8,7 @@ public class Balance : MonoBehaviour {
 
 	public int[] timerSteps = { 5 , 10, 15, 20 };
 	public float[] rotateStages =  { 5, -10, 15, -25 };
+	public float[] velocityStages = { 15, 25, 40 };
 	public GameObject bar;
 	public BarRotation barRot;
 	public GameObject circle;
