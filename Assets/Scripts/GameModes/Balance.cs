@@ -14,7 +14,7 @@ public class Balance : MonoBehaviour {
 	public Vector2 circleStart;
 	public float timer = 0f;
 	public float rotateTimer = 0f;
-	public float steps = 0.05f;
+	public float steps = 1f;
 	ROTSTAGES currentStage;
 	bool rotate;
 
@@ -38,6 +38,8 @@ public class Balance : MonoBehaviour {
 		}
 
 
+		capVelocity();
+
 
 		if(!barRot.draggingItem) {
 			if(rotateTimer > timerSteps[(int)currentStage]) {
@@ -48,7 +50,11 @@ public class Balance : MonoBehaviour {
 
 				if(QuaEQUALS(bar.transform.rotation, Quaternion.Euler(0,0,rotateStages[(int)currentStage]))) {
 					rotate = false;
+					rotateTimer = 0f;
 					currentStage++;
+					if(currentStage == ROTSTAGES.FOURTH) {
+						Debug.Log("GAME OVER!");
+					}
 				}
 			}
 		}
@@ -61,5 +67,26 @@ public class Balance : MonoBehaviour {
 
 	bool QuaEQUALS(Quaternion a, Quaternion b) {
 		return Quaternion.Angle(a, b) < 2;
+	}
+
+
+	void capVelocity() 	{
+		if(Mathf.Abs(circle.GetComponent<Rigidbody2D>().velocity.x) > 15 ) {
+			Vector2 hldr = circle.GetComponent<Rigidbody2D>().velocity;
+
+			hldr.x = Mathf.Sign(hldr.x) * 15;
+
+			circle.GetComponent<Rigidbody2D>().velocity = hldr;
+
+		}
+		
+		if (Mathf.Abs(circle.GetComponent<Rigidbody2D>().velocity.y) > 15) {
+			Vector2 hldr = circle.GetComponent<Rigidbody2D>().velocity;
+
+			hldr.y = Mathf.Sign(hldr.y) * 15;
+
+			circle.GetComponent<Rigidbody2D>().velocity = hldr;
+
+		}
 	}
 }
