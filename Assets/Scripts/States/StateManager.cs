@@ -19,9 +19,9 @@ public class StateManager : MonoBehaviour {
 			states.Add(transform.GetChild(i).gameObject);
 		}
 
-		foreach (GameObject states in states) {
-			states.SetActive(false);
-		}
+		// foreach (GameObject states in states) {
+		// 	states.SetActive(false);
+		// }
 
 
 
