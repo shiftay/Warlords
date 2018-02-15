@@ -42,8 +42,9 @@ public class Balance : MonoBehaviour {
 		if(!barRot.draggingItem) {
 			if(rotateTimer > timerSteps[(int)currentStage]) {
 				rotate = true;
+				// bar.GetComponent<Rigidbody2D>().rotation += steps;
 				bar.transform.rotation = Quaternion.RotateTowards(bar.transform.rotation, Quaternion.Euler(0,0,rotateStages[(int)currentStage]), steps);
-				rotateTimer = 0;
+				// rotateTimer = 0;
 
 				if(QuaEQUALS(bar.transform.rotation, Quaternion.Euler(0,0,rotateStages[(int)currentStage]))) {
 					rotate = false;
