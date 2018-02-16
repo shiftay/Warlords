@@ -34,7 +34,7 @@ public class Maze : MonoBehaviour {
 			currentLevel = Random.Range(0, mazPrefabs.Length);
 			
 			currentMaze = Instantiate(mazPrefabs[currentLevel], centerPoint, Quaternion.Euler(0,0,potRot[Random.Range(0,potRot.Length)]));
-			currentMaze.transform.parent.SetParent(this.transform);
+			currentMaze.transform.parent = this.transform;
 			player.transform.position = currentMaze.transform.GetChild(1).transform.position;
 		}
 	}
@@ -46,8 +46,7 @@ public class Maze : MonoBehaviour {
 	void Update()
 	{
 		if(mMove.gameOver) {
-			mMove.gameOver = false;
-			OnEnable();
+			GameManager.instance.RemoveFromPool(this.gameObject);
 		}
 	}
 

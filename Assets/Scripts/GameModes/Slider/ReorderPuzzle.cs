@@ -24,7 +24,7 @@ public class ReorderPuzzle : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		startPositions = new Vector2[] { boxes[0].transform.position, boxes[1].transform.position, boxes[2].transform.position, boxes[3].transform.position, boxes[4].transform.position, boxes[5].transform.position };
+		// startPositions = new Vector2[] { boxes[0].transform.position, boxes[1].transform.position, boxes[2].transform.position, boxes[3].transform.position, boxes[4].transform.position, boxes[5].transform.position };
 
 	}
 
@@ -53,7 +53,10 @@ public class ReorderPuzzle : MonoBehaviour {
 
 			answerKey = new GameObject[puzzleSize];
 			realign();
-			answerKey = currentPuz;
+			for(int i = 0; i < currentPuz.Length; i++) {
+				answerKey[i] = currentPuz[i];
+			}
+			// answerKey = currentPuz;
 			mixEmUp();
 			gameStart = true;
 		}
@@ -198,26 +201,26 @@ public class ReorderPuzzle : MonoBehaviour {
 
 
 	void mixEmUp() {
-		// do {
-		// 	List<int> used = new List<int>();
+		do {
+			List<int> used = new List<int>();
 
 		
-		// 	for(int i = 0; i < puzzleSize; i++) {
-		// 		int x = 0;	
-		// 		do {
-		// 			x = Random.Range(0, puzzleSize);
-		// 		} while (used.Contains(x));
+			for(int i = 0; i < puzzleSize; i++) {
+				int x = 0;	
+				do {
+					x = Random.Range(0, puzzleSize);
+				} while (used.Contains(x));
 
-		// 		boxes[i].transform.position = startPositions[x];
-		// 		used.Add(x);
-		// 	}
-		// 	realign();
-		// 	//TODO: THIS COULD BE AN INFINITE LOOPS
-		// 	if(!GameWon(currentPuz, answerKey)) {
-		// 		mixed = false;
-		// 	}
+				boxes[i].transform.position = startPositions[x];
+				used.Add(x);
+			}
+			realign();
+			//TODO: THIS COULD BE AN INFINITE LOOPS
+			if(!GameWon(currentPuz, answerKey)) {
+				mixed = false;
+			}
 
-		// }while(!mixed);
+		}while(mixed);
 
 
 

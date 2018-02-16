@@ -47,12 +47,13 @@ public class MousedownScript : MonoBehaviour {
             if (touches.Length > 0)
             {
                 var hit = touches[0];
-                if (hit.transform != null)
-                {
-                    draggingItem = true;
-                    draggedObject = hit.transform.gameObject;
-                    touchOffset = (Vector2)hit.transform.position - inputPosition;
-                    draggedObject.transform.localScale = new Vector3(1.2f,1.2f,1.2f);
+                if (hit.transform != null) {
+                    if(hit.transform.tag == "Piece_Slider") {
+                        draggingItem = true;
+                        draggedObject = hit.transform.gameObject;
+                        touchOffset = (Vector2)hit.transform.position - inputPosition;
+                        draggedObject.transform.localScale = new Vector3(1.2f,1.2f,1.2f);
+                    }
                 }
             }
         }

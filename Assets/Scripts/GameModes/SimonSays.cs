@@ -56,7 +56,7 @@ public class SimonSays : MonoBehaviour {
 			case SimonSaysState.RESOLUTION:
 				if(Resolution()) {
 					if(MAXAMT == currentLevel) {
-						Debug.Log("GAME COMPLETED!");
+						GameManager.instance.RemoveFromPool(this.gameObject);
 					}
 
 					currentLevel++;
