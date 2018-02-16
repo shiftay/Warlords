@@ -12,7 +12,7 @@ public class MazeMovement : MonoBehaviour {
 	bool rePickup = false;
 	float timer = 0f;
 	public float LOCKOUT = 1.5f;
-	bool gameOver = false;
+	public bool gameOver = false;
 	Image gameImage;
 
 	/// <summary>
