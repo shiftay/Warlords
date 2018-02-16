@@ -63,13 +63,10 @@ public class MazeMovement : MonoBehaviour {
         }
     }
  
-    private void DragOrPickUp()
-    {
+    private void DragOrPickUp() {
         var inputPosition = CurrentTouchPosition;
      
-        if (draggingItem)
-        {
-			Vector2 dir = (Vector2)draggedObject.transform.position - (inputPosition + touchOffset);
+        if (draggingItem) {
 
 			float distance = draggedObject.transform.position.magnitude - (inputPosition + touchOffset).magnitude;
 			
@@ -98,7 +95,7 @@ public class MazeMovement : MonoBehaviour {
                 var hit = touches[0];
                 if (hit.transform != null)
                 {
-					if(hit.transform.gameObject.tag != "Maze") {
+					if(hit.transform.gameObject.tag == "Player_Maze") {
 						draggingItem = true;
                    		draggedObject = hit.transform.gameObject;
                     	touchOffset = (Vector2)hit.transform.position - inputPosition;

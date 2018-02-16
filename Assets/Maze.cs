@@ -17,7 +17,7 @@ public class Maze : MonoBehaviour {
 	/// any of the Update methods is called the first time.
 	/// </summary>
 	void Start() {
-		centerPoint = player.transform.position;
+		// centerPoint = player.transform.position;
 		mMove = player.GetComponent<MazeMovement>();
 	}
 
@@ -30,25 +30,12 @@ public class Maze : MonoBehaviour {
 			if(currentMaze) {
 				Destroy(currentMaze);
 			}
+			centerPoint = player.transform.position;
 			currentLevel = Random.Range(0, mazPrefabs.Length);
 			
 			currentMaze = Instantiate(mazPrefabs[currentLevel], centerPoint, Quaternion.Euler(0,0,potRot[Random.Range(0,potRot.Length)]));
-			currentMaze.transform.parent = this.transform;
+			currentMaze.transform.parent.SetParent(this.transform);
 			player.transform.position = currentMaze.transform.GetChild(1).transform.position;
-
-
-
-			///PICK RANDOM NUMBER
-			// SPAWN MAZE AT X
-			// PICK RANDOM ROTATION
-			// SPAWN PLAYER AT START POINT.
-
-
-
-
-
-
-
 		}
 	}
 

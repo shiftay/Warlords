@@ -18,6 +18,10 @@ public class ReorderPuzzle : MonoBehaviour {
 	public string alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 	public string numbers = "123456789";
 
+	public bool gameStart = false;
+	bool mixed = true;
+
+
 	// Use this for initialization
 	void Start () {
 		startPositions = new Vector2[] { boxes[0].transform.position, boxes[1].transform.position, boxes[2].transform.position, boxes[3].transform.position, boxes[4].transform.position, boxes[5].transform.position };
@@ -31,7 +35,7 @@ public class ReorderPuzzle : MonoBehaviour {
 	{
 		if(StateManager.instance != null && StateManager.instance.currentState == GameStates.Play) {
 			timer = 0;
-
+			startPositions = new Vector2[] { boxes[0].transform.position, boxes[1].transform.position, boxes[2].transform.position, boxes[3].transform.position, boxes[4].transform.position, boxes[5].transform.position };
 			puzzleSize = Random.Range(3, 7);
 
 			currentPuz = new GameObject[puzzleSize];
@@ -51,36 +55,38 @@ public class ReorderPuzzle : MonoBehaviour {
 			realign();
 			answerKey = currentPuz;
 			mixEmUp();
-
+			gameStart = true;
 		}
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		timer += Time.deltaTime;
-		if(!mousedown.draggingItem && !mousedown.reorderPuz) {
-			alignGrid();
-			if(GameWon(currentPuz, answerKey)) {
-				Debug.Log("WINNER!");
-				//TODO: Win
+		if(!mixed) {
+			timer += Time.deltaTime;
+			if(!mousedown.draggingItem && !mousedown.reorderPuz) {
+				alignGrid();
+				if(GameWon(currentPuz, answerKey)) {
+					Debug.Log("WINNER!");
+					GameManager.instance.RemoveFromPool(this.gameObject);
+				}
+
+
+				if(timer > 50) {
+					//TODO : YOU LOSE
+				}
+
 			}
 
 
-			if(timer > 50) {
-				//TODO : YOU LOSE
+			if(mousedown.reorderPuz) {
+				// REORDER THE PUZZLE BASED ON MOUSEDOWN
+				realign();
+				OutOfPlace();
+				mousedown.reorderPuz = false;
+
 			}
 
 		}
-
-
-		if(mousedown.reorderPuz) {
-			// REORDER THE PUZZLE BASED ON MOUSEDOWN
-			realign();
-			OutOfPlace();
-			mousedown.reorderPuz = false;
-
-		}
-
 
 	}
 
@@ -192,23 +198,27 @@ public class ReorderPuzzle : MonoBehaviour {
 
 
 	void mixEmUp() {
-		List<int> used = new List<int>();
+		// do {
+		// 	List<int> used = new List<int>();
 
 		
-			for(int i = 0; i < puzzleSize; i++) {
-				int x = 0;	
-				do {
-					x = Random.Range(0, puzzleSize);
-				} while (used.Contains(x));
+		// 	for(int i = 0; i < puzzleSize; i++) {
+		// 		int x = 0;	
+		// 		do {
+		// 			x = Random.Range(0, puzzleSize);
+		// 		} while (used.Contains(x));
 
-				boxes[i].transform.position = startPositions[x];
-				used.Add(x);
-			}
-		realign();
-		//TODO: THIS COULD BE AN INFINITE LOOPS
-		if(GameWon(currentPuz, answerKey)) {
-			mixEmUp();
-		}
+		// 		boxes[i].transform.position = startPositions[x];
+		// 		used.Add(x);
+		// 	}
+		// 	realign();
+		// 	//TODO: THIS COULD BE AN INFINITE LOOPS
+		// 	if(!GameWon(currentPuz, answerKey)) {
+		// 		mixed = false;
+		// 	}
+
+		// }while(!mixed);
+
 
 
  	}

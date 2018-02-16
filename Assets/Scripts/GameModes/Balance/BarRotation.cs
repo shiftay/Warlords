@@ -7,8 +7,6 @@ public class BarRotation : MonoBehaviour {
 
     public bool draggingItem = false;
     private GameObject draggedObject;
-    private Vector2 touchOffset;
-
 	public Vector2 droppedPos;
 	public Vector2 deltaPos;
 	public float sensitivity = 0.4f;
@@ -56,9 +54,11 @@ public class BarRotation : MonoBehaviour {
                	RaycastHit2D hit = touches[0];
                 if (hit.transform != null)
                 {
-                    draggingItem = true;
-                    draggedObject = hit.transform.gameObject;
-                    touchOffset = (Vector2)hit.transform.position - inputPosition;
+                    if(hit.transform.gameObject.tag == "Box_Slider") {
+                        draggingItem = true;
+                        draggedObject = hit.transform.gameObject;
+                        
+                    }
                     // draggedObject.transform.localScale = new Vector3(1.2f,1.2f,1.2f);
                 }
             }

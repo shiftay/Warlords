@@ -5,6 +5,7 @@ using UnityEngine;
 public class Loading : MonoBehaviour {
 
 	public float timer = 0f;
+	public float LOADTIME = 5f;
 	
 	/// <summary>
 	/// This function is called when the object becomes enabled and active.
@@ -19,7 +20,7 @@ public class Loading : MonoBehaviour {
 	void Update () {
 		timer += Time.deltaTime;
 
-		if(timer > 5) {
+		if(timer > LOADTIME) {
 			StateManager.instance.ChangeState(GameStates.Menu);
 		}
 	}
