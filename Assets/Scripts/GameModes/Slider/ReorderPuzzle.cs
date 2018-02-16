@@ -70,7 +70,7 @@ public class ReorderPuzzle : MonoBehaviour {
 				alignGrid();
 				if(GameWon(currentPuz, answerKey)) {
 					Debug.Log("WINNER!");
-					GameManager.instance.RemoveFromPool(this.gameObject);
+					GameManager.instance.RemoveFromPool(this.gameObject, true);
 				}
 
 

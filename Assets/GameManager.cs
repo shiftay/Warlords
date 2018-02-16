@@ -16,7 +16,7 @@ public class GameManager : MonoBehaviour {
 		
 	}
 
-	public void RemoveFromPool(GameObject removal) {
+	public void RemoveFromPool(GameObject removal, bool won) {
 		play.activeGame.RemoveAt(play.activeModes.IndexOf(removal));
 		play.activeModes.Remove(removal);
 

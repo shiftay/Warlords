@@ -56,7 +56,7 @@ public class SimonSays : MonoBehaviour {
 			case SimonSaysState.RESOLUTION:
 				if(Resolution()) {
 					if(MAXAMT == currentLevel) {
-						GameManager.instance.RemoveFromPool(this.gameObject);
+						GameManager.instance.RemoveFromPool(this.gameObject, true);
 					}
 
 					currentLevel++;

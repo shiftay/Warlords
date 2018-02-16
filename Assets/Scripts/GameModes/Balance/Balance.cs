@@ -18,6 +18,7 @@ public class Balance : MonoBehaviour {
 	public float steps = 1f;
 	ROTSTAGES currentStage;
 	bool rotate;
+	bool gameStart = false;
 
 
 	/// <summary>
@@ -33,9 +34,16 @@ public class Balance : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
+		// if(gameStart) { TODO: ADD THIS IN THE GAME
+
+	
 		timer += Time.deltaTime;
 		if(!rotate) {
 			rotateTimer += Time.deltaTime;
+		}
+
+		if(!circle.activeInHierarchy) {
+
 		}
 
 
@@ -54,14 +62,14 @@ public class Balance : MonoBehaviour {
 					rotateTimer = 0f;
 					currentStage++;
 					if(currentStage == ROTSTAGES.FOURTH) {
-						Debug.Log("GAME OVER!");
+						GameManager.instance.RemoveFromPool(this.gameObject, true);
 					}
 				}
 			}
 		}
 
 
-
+		// }
 
 	}
 

@@ -46,7 +46,7 @@ public class Maze : MonoBehaviour {
 	void Update()
 	{
 		if(mMove.gameOver) {
-			GameManager.instance.RemoveFromPool(this.gameObject);
+			GameManager.instance.RemoveFromPool(this.gameObject, true);
 		}
 	}
 

@@ -52,7 +52,7 @@ public class BreakOut : MonoBehaviour {
 			case PaddleRotation.THIRD:
 					if(hitCounter.hitCounter >= 9 && !rotated) {
 						// TODO: puzzle completed.
-						Debug.Log("game completed");
+						GameManager.instance.RemoveFromPool(this.gameObject, true);
 						rotated = true;
 					}
 			break;
@@ -72,9 +72,7 @@ public class BreakOut : MonoBehaviour {
 
 		if(!ball.activeInHierarchy) {
 			//TODO: GAMEOVER
-			Debug.Log("Game Lost");
-			ball.transform.position = startPos;
-			ball.SetActive(true);
+			GameManager.instance.RemoveFromPool(this.gameObject, false);
 		}
 	}
 
