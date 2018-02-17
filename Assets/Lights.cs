@@ -10,6 +10,8 @@ public class Lights : MonoBehaviour {
 
 	public LightBtn[,] lights2 = new LightBtn[3,3];
 
+	float timer = 0f;
+
 	// Use this for initialization
 	void Start () {
 		int x = 0;
@@ -40,10 +42,14 @@ public class Lights : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		if(gameWon()) {
-			Debug.Log("You won!");
+			GameManager.instance.RemoveFromPool(this.gameObject, true);
 		}
 
+		timer += Time.deltaTime;
 
+		if(timer > 50f) {
+			GameManager.instance.RemoveFromPool(this.gameObject, false);
+		}
 
 	}
 

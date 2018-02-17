@@ -18,6 +18,7 @@ public class QuickMaff : MonoBehaviour {
 	public GameObject SIGN_ANSWER;
 
 	bool gameOver = false;
+	float timer = 0f;
 
 
 	// Use this for initialization
@@ -94,6 +95,13 @@ public class QuickMaff : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		if(!gameOver) {
+			timer += Time.deltaTime;
+
+			if(timer > 10f) {
+				GameManager.instance.RemoveFromPool(this.gameObject, false);
+			}
+
+
 			if(maff.reorderPuz) {
 				if(realign()) {
 					// TODO: CHECK IF THEY WIN OR NOT.
@@ -114,9 +122,9 @@ public class QuickMaff : MonoBehaviour {
 		}
 
 		if(answerKey == (MAFFSIGNS)outOfPosition){
-			Debug.Log("YOU WON");
+			GameManager.instance.RemoveFromPool(this.gameObject, true);
 		} else {
-			Debug.Log("YOU lost");
+			GameManager.instance.RemoveFromPool(this.gameObject, false);
 		}
 
 	}
