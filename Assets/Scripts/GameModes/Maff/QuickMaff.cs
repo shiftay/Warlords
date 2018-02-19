@@ -23,7 +23,6 @@ public class QuickMaff : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-
 		maff = GetComponent<MaffMovement>();
 		startPositions = new Vector2[signStarts.Length];
 
@@ -31,67 +30,52 @@ public class QuickMaff : MonoBehaviour {
 			startPositions[i] = signStarts[i].transform.position;
 		}
 
-		
-
-		bool canFindAnswer = false;
 		int actualAnswer = -1;
 		int leftside_a = -1;
 		int rightside_a = 1; 
 
 		answerKey = (MAFFSIGNS)Random.Range(0,4);
 
-			int answer = -1;
+		int answer = -1;
 
-			switch(answerKey) {
-				case MAFFSIGNS.ADD:
+		switch(answerKey) {
+			case MAFFSIGNS.ADD:
+				answer = Random.Range(0,100);
+				leftside_a = Random.Range(1, answer);
+				rightside_a = answer - leftside_a;
+				actualAnswer = answer;
+				break;
+			case MAFFSIGNS.SUBTRACT:
+				answer = Random.Range(0,50);
+				leftside_a = Random.Range(answer+1, answer * 2);
+				rightside_a = leftside_a - answer;
+				actualAnswer = answer;
+				break;
+			case MAFFSIGNS.DIVIDE:
+				answer = Random.Range(11,25);
+				rightside_a = Random.Range(0, 10);
+				leftside_a = answer * rightside_a;
+				actualAnswer = answer;
+				break;
+			case MAFFSIGNS.MULTIPLY:
+				do{
 					answer = Random.Range(0,100);
-					leftside_a = Random.Range(1, answer);
-					rightside_a = answer - leftside_a;
-					actualAnswer = answer;
-					canFindAnswer = true;
-					break;
-				case MAFFSIGNS.SUBTRACT:
-					answer = Random.Range(0,50);
-					leftside_a = Random.Range(answer+1, answer * 2);
-					rightside_a = leftside_a - answer;
-					actualAnswer = answer;
-					canFindAnswer = true;
-					break;
-				case MAFFSIGNS.DIVIDE:
-					answer = Random.Range(11,25);
-					rightside_a = Random.Range(0, 10);
-					leftside_a = answer * rightside_a;
-					actualAnswer = answer;
-					canFindAnswer = true;
+				} while(CalcIsPrime(answer));
+				
+				do {
+					leftside_a = Random.Range(2,10);
+				} while(answer % leftside_a != 0);
 
-
-
-
-					break;
-				case MAFFSIGNS.MULTIPLY:
-					do{
-						answer = Random.Range(0,100);
-					} while(CalcIsPrime(answer));
-					
-					do {
-						leftside_a = Random.Range(2,10);
-					} while(answer % leftside_a != 0);
-
-						rightside_a = answer / leftside_a;
-
-					break;
-			}
-
+					rightside_a = answer / leftside_a;
+				break;
+		}
 
 		answerT.text = answer.ToString();
 		secondSide.text = rightside_a.ToString();
 		firstSide.text = leftside_a.ToString();
-
 	}
 
 
-
-	
 	// Update is called once per frame
 	void Update () {
 		if(!gameOver) {
@@ -101,10 +85,8 @@ public class QuickMaff : MonoBehaviour {
 				GameManager.instance.RemoveFromPool(this.gameObject, false);
 			}
 
-
 			if(maff.reorderPuz) {
 				if(realign()) {
-					// TODO: CHECK IF THEY WIN OR NOT.
 					DidWeWin();
 				} 
 			}	
