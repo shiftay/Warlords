@@ -1,0 +1,33 @@
+fileFormatVersion: 2
+guid: ea2f0313c9a149b4486ef18e348f8953
+timeCreated: 1519105843
+licenseType: Free
+TrueTypeFontImporter:
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: Galderglynn Titling
+  fontNames:
+  - Galderglynn Titling
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: 3244a14150bd0e54ea59a2f07b88b165, type: 3}
+  - {fileID: 12800000, guid: d03110819981b4f40aa8122695472e3e, type: 3}
+  - {fileID: 12800000, guid: 3b5568f296440444ba6ccaf24d4b0a35, type: 3}
+  - {fileID: 12800000, guid: 8a0f6dd488cad6849b6ee94a3525d669, type: 3}
+  - {fileID: 12800000, guid: bb05b035aee0c38498b8821aa4aba90f, type: 3}
+  - {fileID: 12800000, guid: 1fb85ef61ea872e47aa60e9f412cea67, type: 3}
+  - {fileID: 12800000, guid: c4214e37087be544384e5de602f7222c, type: 3}
+  - {fileID: 12800000, guid: 42639d98343f3aa4da1f580bae8e39c4, type: 3}
+  - {fileID: 12800000, guid: d8e76f2948a17f74e99e8bc978f504dd, type: 3}
+  - {fileID: 12800000, guid: e36af0ba09d661a4bb5176fbd1ce73ae, type: 3}
+  - {fileID: 12800000, guid: 5ca052ba7b75d9642a7a74ce77bd0376, type: 3}
+  - {fileID: 12800000, guid: 453284fe22a037c4394da060d4969bb9, type: 3}
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
