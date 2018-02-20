@@ -36,6 +36,8 @@ public class Menu : MonoBehaviour {
 		if(fadeIn) {
 			FadeInAlpha(play);
 			if(play.color.a >= 1) {
+
+				// TURN ON INTERACTABLE
 				fadeIn = false;
 			}
 		}
