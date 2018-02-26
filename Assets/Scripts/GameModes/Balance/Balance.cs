@@ -34,42 +34,47 @@ public class Balance : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
-		// if(gameStart) { TODO: ADD THIS IN THE GAME
-
-	
-		timer += Time.deltaTime;
-		if(!rotate) {
-			rotateTimer += Time.deltaTime;
-		}
-
-		if(!circle.activeInHierarchy) {
-
+		if(!GetComponent<Animation>().isPlaying && !gameStart){
+			gameStart = true;
 		}
 
 
-		capVelocity();
+		
+		
+		if(gameStart) { 
+
+			timer += Time.deltaTime;
+			if(!rotate) {
+				rotateTimer += Time.deltaTime;
+			}
+
+			if(!circle.activeInHierarchy) {
+
+			}
 
 
-		if(!barRot.draggingItem) {
-			if(rotateTimer > timerSteps[(int)currentStage]) {
-				rotate = true;
-				// bar.GetComponent<Rigidbody2D>().rotation += steps;
-				bar.transform.rotation = Quaternion.RotateTowards(bar.transform.rotation, Quaternion.Euler(0,0,rotateStages[(int)currentStage]), steps);
-				// rotateTimer = 0;
+			capVelocity();
 
-				if(QuaEQUALS(bar.transform.rotation, Quaternion.Euler(0,0,rotateStages[(int)currentStage]))) {
-					rotate = false;
-					rotateTimer = 0f;
-					currentStage++;
-					if(currentStage == ROTSTAGES.FOURTH) {
-						GameManager.instance.RemoveFromPool(this.gameObject, true);
+
+			if(!barRot.draggingItem) {
+				if(rotateTimer > timerSteps[(int)currentStage]) {
+					rotate = true;
+					// bar.GetComponent<Rigidbody2D>().rotation += steps;
+					bar.transform.rotation = Quaternion.RotateTowards(bar.transform.rotation, Quaternion.Euler(0,0,rotateStages[(int)currentStage]), steps);
+					// rotateTimer = 0;
+
+					if(QuaEQUALS(bar.transform.rotation, Quaternion.Euler(0,0,rotateStages[(int)currentStage]))) {
+						rotate = false;
+						rotateTimer = 0f;
+						currentStage++;
+						if(currentStage == ROTSTAGES.FOURTH) {
+							GameManager.instance.RemoveFromPool(this.gameObject, true);
+						}
 					}
 				}
 			}
+
 		}
-
-
-		// }
 
 	}
 

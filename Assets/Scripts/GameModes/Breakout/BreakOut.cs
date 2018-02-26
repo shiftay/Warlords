@@ -15,6 +15,8 @@ public class BreakOut : MonoBehaviour {
 	Quaternion secondRot = Quaternion.Euler(0,0,135);
 	bool rotated = false;
 
+	public bool gameStarted = false;
+
 
 	/// <summary>
 	/// This function is called when the object becomes enabled and active.
@@ -29,34 +31,42 @@ public class BreakOut : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
+		if(!GetComponent<Animation>().isPlaying && !gameStarted) {
+			gameStarted = true;
+			ball.GetComponent<Ball>().startBall();
+		} 
+
+		if(gameStarted) {
+			switch(currentRotation) {
+				case PaddleRotation.FIRST:
+
+						if(hitCounter.hitCounter >= 3) {
+							paddle.transform.rotation = Quaternion.RotateTowards(paddle.transform.rotation, firstRot, 5f);
+							if(paddle.transform.rotation.eulerAngles.z == 180) {
+								currentRotation = PaddleRotation.SECOND;
+							}
+						}
+				break;
+				case PaddleRotation.SECOND:
+						if(hitCounter.hitCounter >= 6) {
+							paddle.transform.rotation = Quaternion.RotateTowards(paddle.transform.rotation, secondRot, 5f);
+							if(paddle.transform.rotation.eulerAngles.z == 135) {
+								currentRotation = PaddleRotation.THIRD;
+							}
+						}
+				break;
+				case PaddleRotation.THIRD:
+						if(hitCounter.hitCounter >= 9 && !rotated) {
+							// TODO: puzzle completed.
+							GameManager.instance.RemoveFromPool(this.gameObject, true);
+							rotated = true;
+						}
+				break;
+			}
+
+		}
 		// TODO: Change stages to be based off a single number
 
-		switch(currentRotation) {
-			case PaddleRotation.FIRST:
-
-					if(hitCounter.hitCounter >= 3) {
-						paddle.transform.rotation = Quaternion.RotateTowards(paddle.transform.rotation, firstRot, 5f);
-						if(paddle.transform.rotation.eulerAngles.z == 180) {
-							currentRotation = PaddleRotation.SECOND;
-						}
-					}
-			break;
-			case PaddleRotation.SECOND:
-					if(hitCounter.hitCounter >= 6) {
-						paddle.transform.rotation = Quaternion.RotateTowards(paddle.transform.rotation, secondRot, 5f);
-						if(paddle.transform.rotation.eulerAngles.z == 135) {
-							currentRotation = PaddleRotation.THIRD;
-						}
-					}
-			break;
-			case PaddleRotation.THIRD:
-					if(hitCounter.hitCounter >= 9 && !rotated) {
-						// TODO: puzzle completed.
-						GameManager.instance.RemoveFromPool(this.gameObject, true);
-						rotated = true;
-					}
-			break;
-		}
 
 
 

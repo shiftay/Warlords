@@ -6,10 +6,10 @@ public class Ball : MonoBehaviour {
 
 	public float speed = 150f;
 	// Use this for initialization
-	void OnEnable () {
-		Vector2 dir = new Vector2(Random.Range(-1f,1f), 1);
-		GetComponent<Rigidbody2D>().velocity = dir * speed;
-	}
+	// void OnEnable () {
+	// 	Vector2 dir = new Vector2(Random.Range(-1f,1f), 1);
+	// 	GetComponent<Rigidbody2D>().velocity = dir * speed;
+	// }
 	
 	/// <summary>
 	/// Sent when another object enters a trigger collider attached to this
@@ -27,4 +27,8 @@ public class Ball : MonoBehaviour {
 	}
 
 
+	public void startBall() {
+		Vector2 dir = new Vector2(Random.Range(-1f,1f), 1);
+		GetComponent<Rigidbody2D>().velocity = dir * speed;
+	}
 }

@@ -6,8 +6,6 @@ using UnityEngine.UI;
 public class Rullo : MonoBehaviour {
 
 	public Button[] texts;
-
-
 	public Text[] rowText;
 	public Text[] colText;
 
@@ -41,12 +39,16 @@ public class Rullo : MonoBehaviour {
 
 		CreatePuzzle();
 		
-		gameStart = true;
+		
 
 	}
 	
 	// Update is called once per frame
 	void Update () {
+		if(!GetComponent<Animation>().isPlaying && !gameStart) {
+			gameStart = true;
+		}
+
 		if(gameStart) {
 			timer += Time.deltaTime;
 
@@ -54,6 +56,11 @@ public class Rullo : MonoBehaviour {
 
 			if(GameWon()) {
 				GameManager.instance.RemoveFromPool(this.gameObject, true);
+			}
+
+
+			if(timer > 20f) {
+				// GameManager.instance.RemoveFromPool(this.gameObject, false);
 			}
 		}
 	}

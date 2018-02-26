@@ -25,7 +25,31 @@ public class ReorderPuzzle : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		// startPositions = new Vector2[] { boxes[0].transform.position, boxes[1].transform.position, boxes[2].transform.position, boxes[3].transform.position, boxes[4].transform.position, boxes[5].transform.position };
+		timer = 0;
+		startPositions = new Vector2[] { boxes[0].transform.position, boxes[1].transform.position, boxes[2].transform.position, boxes[3].transform.position, boxes[4].transform.position, boxes[5].transform.position };
+		puzzleSize = Random.Range(3, 7);
 
+		currentPuz = new GameObject[puzzleSize];
+		
+		for(int i = puzzleSize; i < boxes.Length; i++) {
+			boxes[i].SetActive(false);
+		}
+		
+
+		string puzzle = alphabet.Substring(Random.Range(0, 25-puzzleSize), puzzleSize);
+
+		for(int i = 0; i < puzzleSize; i++) {
+			boxes[i].GetComponentInChildren<Text>().text = puzzle[i].ToString();
+		}
+
+		answerKey = new GameObject[puzzleSize];
+		realign();
+		for(int i = 0; i < currentPuz.Length; i++) {
+			answerKey[i] = currentPuz[i];
+		}
+		// answerKey = currentPuz;
+		mixEmUp();
+			
 	}
 
 	/// <summary>
@@ -34,61 +58,43 @@ public class ReorderPuzzle : MonoBehaviour {
 	void OnEnable()
 	{
 		if(StateManager.instance != null && StateManager.instance.currentState == GameStates.Play) {
-			timer = 0;
-			startPositions = new Vector2[] { boxes[0].transform.position, boxes[1].transform.position, boxes[2].transform.position, boxes[3].transform.position, boxes[4].transform.position, boxes[5].transform.position };
-			puzzleSize = Random.Range(3, 7);
 
-			currentPuz = new GameObject[puzzleSize];
-			
-			for(int i = puzzleSize; i < boxes.Length; i++) {
-				boxes[i].SetActive(false);
-			}
-			
-
-			string puzzle = alphabet.Substring(Random.Range(0, 25-puzzleSize), puzzleSize);
-
-			for(int i = 0; i < puzzleSize; i++) {
-				boxes[i].GetComponentInChildren<Text>().text = puzzle[i].ToString();
-			}
-
-			answerKey = new GameObject[puzzleSize];
-			realign();
-			for(int i = 0; i < currentPuz.Length; i++) {
-				answerKey[i] = currentPuz[i];
-			}
-			// answerKey = currentPuz;
-			mixEmUp();
-			gameStart = true;
 		}
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		if(!mixed) {
-			timer += Time.deltaTime;
-			if(!mousedown.draggingItem && !mousedown.reorderPuz) {
-				alignGrid();
-				if(GameWon(currentPuz, answerKey)) {
-					Debug.Log("WINNER!");
-					GameManager.instance.RemoveFromPool(this.gameObject, true);
+		if(!GetComponent<Animation>().isPlaying && !gameStart) {
+			gameStart = true;
+		}
+
+		if(gameStart) {
+			if(!mixed) {
+				timer += Time.deltaTime;
+				if(!mousedown.draggingItem && !mousedown.reorderPuz) {
+					alignGrid();
+					if(GameWon(currentPuz, answerKey)) {
+						Debug.Log("WINNER!");
+						GameManager.instance.RemoveFromPool(this.gameObject, true);
+					}
+
+
+					if(timer > 50) {
+						//TODO : YOU LOSE
+					}
+
 				}
 
 
-				if(timer > 50) {
-					//TODO : YOU LOSE
+				if(mousedown.reorderPuz) {
+					// REORDER THE PUZZLE BASED ON MOUSEDOWN
+					realign();
+					OutOfPlace();
+					mousedown.reorderPuz = false;
+
 				}
 
 			}
-
-
-			if(mousedown.reorderPuz) {
-				// REORDER THE PUZZLE BASED ON MOUSEDOWN
-				realign();
-				OutOfPlace();
-				mousedown.reorderPuz = false;
-
-			}
-
 		}
 
 	}
@@ -201,6 +207,7 @@ public class ReorderPuzzle : MonoBehaviour {
 
 
 	void mixEmUp() {
+
 		do {
 			List<int> used = new List<int>();
 

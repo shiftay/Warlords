@@ -35,8 +35,8 @@ public class Menu : MonoBehaviour {
 
 		if(fadeIn) {
 			FadeInAlpha(play);
+			FadeInAlpha(settings);
 			if(play.color.a >= 1) {
-
 				// TURN ON INTERACTABLE
 				fadeIn = false;
 			}
@@ -49,12 +49,7 @@ public class Menu : MonoBehaviour {
 	void OnEnable()	{
 		if(StateManager.instance != null && StateManager.instance.currentState == GameStates.Menu) {
 			startFade = true;
-
-
 		}
-
-
-
 	}
 
 

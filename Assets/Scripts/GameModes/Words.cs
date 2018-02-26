@@ -12,8 +12,9 @@ public class Words : MonoBehaviour {
 	string answerKey;
 	public List<int> eachPosindex = new List<int>();
 	bool notmixed = false;
-
 	bool isWon = false;
+	public float timer = 0f;
+	public bool gameStarted = false;
 
 	// Use this for initialization
 	void Start () {
@@ -45,11 +46,23 @@ public class Words : MonoBehaviour {
 	/// Update is called every frame, if the MonoBehaviour is enabled.
 	/// </summary>
 	void Update() {
-		
-		if(GameWon()) {
-			Debug.Log("winner");
-			isWon = true;
+		if(!GetComponent<Animation>().isPlaying && !gameStarted) {
+			gameStarted = true;
 		}
+
+		if(gameStarted) {
+			if(GameWon()) {
+				GameManager.instance.RemoveFromPool(this.gameObject, true);
+			}
+
+			timer += Time.deltaTime;
+
+			if(timer > 15f) {
+				GameManager.instance.RemoveFromPool(this.gameObject, false);
+			}
+		}
+
+
 
 
 	}

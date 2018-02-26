@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Lights : MonoBehaviour {
 
@@ -10,7 +11,8 @@ public class Lights : MonoBehaviour {
 
 	public LightBtn[,] lights2 = new LightBtn[3,3];
 
-	float timer = 0f;
+	public float timer = 0f;
+	public bool gameStarted = false;
 
 	// Use this for initialization
 	void Start () {
@@ -27,49 +29,40 @@ public class Lights : MonoBehaviour {
 
 			y++;
 		}
-		
-		foreach(LightBtn light in lights) {
-			int j = Random.Range(0, 10);
-
-			if(j < 5) {
-				light.TURNON();
-			} else {
-				light.TURNOFF();
-			}
-		}
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		if(gameWon()) {
-			GameManager.instance.RemoveFromPool(this.gameObject, true);
+		if(!GetComponent<Animation>().isPlaying && !gameStarted) {
+			startGame();
+			gameStarted = true;
 		}
 
-		timer += Time.deltaTime;
+		if(gameStarted) {
+			if(gameWon()) {
+				GameManager.instance.RemoveFromPool(this.gameObject, true);
+			}
 
-		if(timer > 50f) {
-			GameManager.instance.RemoveFromPool(this.gameObject, false);
+			timer += Time.deltaTime;
+
+			if(timer > 50f) {
+				GameManager.instance.RemoveFromPool(this.gameObject, false);
+			}
+
 		}
-
 	}
 
 	public void ToggleThis(GameObject btn) {
 		int indexOfbtn = lights.IndexOf(btn.GetComponent<LightBtn>());
 
-
 		int x = indexOfbtn / 3;
 		int y = indexOfbtn % 3;
 
-		
 		toggle(x,y);
 		toggle(x+1,y);
 		toggle(x-1, y);
 		toggle(x, y+1);
 		toggle(x, y-1);
-
-		
-
-
 	}
 
 	void toggle(int x, int y) {
@@ -82,7 +75,6 @@ public class Lights : MonoBehaviour {
 		} 
 	}
 
-
 	bool gameWon() {
 		bool retVal = true;
 
@@ -92,7 +84,21 @@ public class Lights : MonoBehaviour {
 			}
 		}
 
-
 		return retVal;
+	}
+
+	void startGame() {
+		foreach(LightBtn light in lights) {
+			light.GetComponent<Button>().interactable = true;
+
+
+			int j = Random.Range(0, 10);
+
+			if(j < 5) {
+				light.TURNON();
+			} else {
+				light.TURNOFF();
+			}
+		}
 	}
 }

@@ -9,7 +9,7 @@ public class GamePlay : MonoBehaviour {
 	public GameObject[] playSpots;
 	public GameObject[] puzPrefab;
 	public float gameTimer = 0f;
-	bool gameOver = false;
+	public bool gameOver = false;
 	public List<GameModes> activeGame = new List<GameModes>();
 	public List<GameObject> activeModes = new List<GameObject>();
 	public List<GameModes> listOfModes = new List<GameModes>();
@@ -25,6 +25,9 @@ public class GamePlay : MonoBehaviour {
 	void OnEnable()
 	{
 		if(StateManager.instance != null && StateManager.instance.currentState == GameStates.Play) {
+			GameManager.instance.strikes = 3;
+
+
 			gameOver = false;
 			gameTimer = 0;
 
@@ -79,6 +82,17 @@ public class GamePlay : MonoBehaviour {
 		}
 	}
 
+
+
+	public void GameOver() {
+		gameOver = true;
+
+		Debug.Log("GAME OVER");
+
+
+		
+
+	}
 
 }
 
