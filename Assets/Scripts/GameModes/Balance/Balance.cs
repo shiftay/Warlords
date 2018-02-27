@@ -36,6 +36,7 @@ public class Balance : MonoBehaviour {
 	void Update () {
 		if(!GetComponent<Animation>().isPlaying && !gameStart){
 			gameStart = true;
+			
 		}
 
 
