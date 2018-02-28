@@ -24,6 +24,8 @@ public class GameManager : MonoBehaviour {
 	}
 
 	public void RemoveFromPool(GameObject removal, bool won) {
+		
+	
 		if(won) {
 			gameModes_beaten.Add(play.activeGame[play.activeModes.IndexOf(removal)]);
 

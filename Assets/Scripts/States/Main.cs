@@ -16,7 +16,7 @@ public class Main : MonoBehaviour {
 
 
 	public void SimonSays() {
-		StateManager.instance.ChangeState(GameStates.Play);
+		StateManager.instance.ChangeState(GameStates.Main);
 	}
 
 	

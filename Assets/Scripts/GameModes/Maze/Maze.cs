@@ -26,7 +26,7 @@ public class Maze : MonoBehaviour {
 	/// </summary>
 	void OnEnable()
 	{
-		if(StateManager.instance != null && StateManager.instance.currentState == GameStates.Play) {
+		if(StateManager.instance != null && StateManager.instance.currentState == GameStates.Main) {
 			if(currentMaze) {
 				Destroy(currentMaze);
 			}

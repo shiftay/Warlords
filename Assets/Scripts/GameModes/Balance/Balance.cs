@@ -16,6 +16,7 @@ public class Balance : MonoBehaviour {
 	public float timer = 0f;
 	public float rotateTimer = 0f;
 	public float steps = 1f;
+	public float WINTIMER = 25f;
 	ROTSTAGES currentStage;
 	bool rotate;
 	bool gameStart = false;
@@ -66,13 +67,14 @@ public class Balance : MonoBehaviour {
 
 					if(QuaEQUALS(bar.transform.rotation, Quaternion.Euler(0,0,rotateStages[(int)currentStage]))) {
 						rotate = false;
-						rotateTimer = 0f;
+						// rotateTimer = 0f;
 						currentStage++;
-						if(currentStage == ROTSTAGES.FOURTH) {
-							GameManager.instance.RemoveFromPool(this.gameObject, true);
-						}
 					}
 				}
+			}
+
+			if(timer > WINTIMER) {
+				GameManager.instance.RemoveFromPool(this.gameObject, true);
 			}
 
 		}

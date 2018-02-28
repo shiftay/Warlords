@@ -27,8 +27,7 @@ public class SimonSays : MonoBehaviour {
 	/// </summary>
 	void OnEnable()
 	{
-		currentLevel = MINAMT;
-		MAXAMT = Random.Range(MINAMT, 6); // TODO: Remove magic number?
+		currentLevel = Random.Range(MINAMT, 6);
 		CreatePuzzle();
 		deactivateBtns();
 		currentState = SimonSaysState.SHOWING;
@@ -47,7 +46,7 @@ public class SimonSays : MonoBehaviour {
 
 
 				if(timer >= 5 && playerChoices.Count == 0) {
-					//switch to showing again.
+					
 					// TODO: show it again, and to give them a shot.
 				}
 
@@ -55,24 +54,9 @@ public class SimonSays : MonoBehaviour {
 				break;
 			case SimonSaysState.RESOLUTION:
 				if(Resolution()) {
-					if(MAXAMT == currentLevel) {
-						GameManager.instance.RemoveFromPool(this.gameObject, true);
-					}
-
-					currentLevel++;
-					CreatePuzzle();
-					currentState = SimonSaysState.SHOWING;
-					timer = 0;
-
-
+					GameManager.instance.RemoveFromPool(this.gameObject, true);
 				} else {
-					if(strikes != 3) {
-						strikes++;
-						currentState = SimonSaysState.SHOWING;
-						timer = 0;
-					} else {
-						Debug.Log("GAMEOVER DUDE!");
-					}
+					GameManager.instance.RemoveFromPool(this.gameObject, false);
 				}
 
 				playerChoices.Clear();

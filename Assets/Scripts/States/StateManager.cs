@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum GameStates { Loading, Menu, Main, Play, Pause, Settings }
+public enum GameStates { Loading, Menu, Main, Pause, Settings }
 
 
 public class StateManager : MonoBehaviour {

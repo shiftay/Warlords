@@ -89,7 +89,7 @@ public class QuickMaff : MonoBehaviour {
 				timer += Time.deltaTime;
 
 				if(timer > 10f) {
-					// GameManager.instance.RemoveFromPool(this.gameObject, false);
+					GameManager.instance.RemoveFromPool(this.gameObject, false);
 				}
 
 				if(maff.reorderPuz) {
