@@ -79,8 +79,8 @@ public class ReorderPuzzle : MonoBehaviour {
 					}
 
 
-					if(timer > 50) {
-						//TODO : YOU LOSE
+					if(timer > 25) {
+						GameManager.instance.RemoveFromPool(this.gameObject, false);
 					}
 
 				}

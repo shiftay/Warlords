@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+// For Reference
+// public enum GameModes { BALANCE, BREAKOUT, SIMONSAYS, QUICKMAFF, SLIDER, WORDS, RULLO };
+
 public class GameManager : MonoBehaviour {
 	public GamePlay play;
 	static public GameManager instance;
@@ -10,6 +13,7 @@ public class GameManager : MonoBehaviour {
 	public List<GameModes> gameModes_beaten;
 	public List<GameModes> gamesModes_strike;
 
+	int[] difficulty = new int[] { 8, 8, 5, 2, 4, 3, 3 };
 
 
 
@@ -24,8 +28,7 @@ public class GameManager : MonoBehaviour {
 	}
 
 	public void RemoveFromPool(GameObject removal, bool won) {
-		
-	
+		bool gameOver = false;
 		if(won) {
 			gameModes_beaten.Add(play.activeGame[play.activeModes.IndexOf(removal)]);
 
@@ -35,10 +38,9 @@ public class GameManager : MonoBehaviour {
 			strikes--;
 
 			if(GameOver()) {
-				play.GameOver();
+				gameOver = true;
 			}
 		}
-
 
 		play.activeGame.RemoveAt(play.activeModes.IndexOf(removal));
 		play.activeModes.Remove(removal);
@@ -53,14 +55,11 @@ public class GameManager : MonoBehaviour {
 		play.usedSpots.Remove(indexOfPuzzle);
 		play.poolOfSpots.Add(indexOfPuzzle);
 
-
-
-
-
-
-
-
 		Destroy(removal);
+
+		if(gameOver){
+			play.GameOver();
+		}
 	}
 
 
@@ -68,7 +67,19 @@ public class GameManager : MonoBehaviour {
 		return strikes == 0;
 	}
 
+	public float CalculateDifficulty() {
+		float retVal = 0;
 
+
+		foreach (GameModes gm in gameModes_beaten) {
+			retVal += difficulty[(int)gm];
+		}
+
+		retVal /= gameModes_beaten.Count;
+
+
+		return retVal;
+	}
 
 
 

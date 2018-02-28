@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum GameModes { BALANCE, BREAKOUT, MAZE, SIMONSAYS, SLIDER };
+public enum GameModes { BalanceBeam, Breakout, SimonSays, QuickMath, AlphabetScramble, ScrambledWords, Rullo, Maze };
 
 public class GamePlay : MonoBehaviour {
 
@@ -40,7 +40,9 @@ public class GamePlay : MonoBehaviour {
 			poolOfSpots.Add(1);
 			poolOfSpots.Add(2);
 
-
+			GameManager.instance.strikes = 3;
+			GameManager.instance.gameModes_beaten.Clear();
+			GameManager.instance.gamesModes_strike.Clear();
 
 			int first = Random.Range(0,puzPrefab.Length);
 			activeGame.Add((GameModes)first);
@@ -50,6 +52,10 @@ public class GamePlay : MonoBehaviour {
 			activeModes[activeModes.Count - 1].transform.SetParent(this.transform);
 			poolOfSpots.Remove(spot);
 			usedSpots.Add(spot);
+
+
+
+
 		}
 	}
 
@@ -91,7 +97,16 @@ public class GamePlay : MonoBehaviour {
 
 		Debug.Log("GAME OVER");
 
-		StateManager.instance.ChangeState(GameStates.Pause);
+		for(int i = 0; i < activeModes.Count; i++) {
+			Destroy(activeModes[i]);
+		}
+
+		activeGame.Clear();
+		listOfModes.Clear();
+		poolOfSpots.Clear();
+		usedSpots.Clear();
+
+		StateManager.instance.ChangeState(GameStates.GameOver);
 		
 
 	}
