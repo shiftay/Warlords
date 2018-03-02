@@ -22,11 +22,13 @@ public class smokeBG : MonoBehaviour {
     }
 
 	void Start () {
+		bg = GetComponent<Image>();
+
 		_renderer = GetComponent<RawImage>();
 		dir = new Vector2[] { new Vector2(speed,speed), new Vector2(-speed,-speed), new Vector2(speed, -speed), new Vector2(-speed, speed)};
 		// dir[0] = 
 		curDir = Random.Range(0, dir.Length);
-		bg = GetComponent<Image>();
+
 	}
 	
 	// Update is called once per frame
@@ -36,17 +38,75 @@ public class smokeBG : MonoBehaviour {
 		timer += Time.deltaTime;
 
 		if(timer > changeDir) {
-			curDir = Random.Range(0, dir.Length);
+			
+			
+			
+			curDir = chooseDir();
+			
+			// curDir = Random.Range(0, dir.Length);
 			timer = 0;
 			//TODO: Check the UV Rect x / y to make sure we aren't going the wrong way.
+
+
+
+
 		}
 
-		// Rect hldr = _renderer.uvRect;
-		// hldr.x += (0.05f * Time.deltaTime) * dir[curDir].x;
-		// hldr.y += (0.05f * Time.deltaTime) * dir[curDir].y;
-		//  _renderer.uvRect = hldr;
+		Rect hldr = _renderer.uvRect;
+		hldr.x += (0.05f * Time.deltaTime) * dir[curDir].x;
+		hldr.y += (0.05f * Time.deltaTime) * dir[curDir].y;
+		 _renderer.uvRect = hldr;
 
-		bg.transform.Translate(dir[curDir]);
+		// bg.transform.Translate(dir[curDir]);
 
 	}
+
+	int chooseDir() {
+		int retVal = -1;
+		//475.5,267.5
+		Rect hldr = _renderer.uvRect;
+
+		if(hldr.x >= 0.2) {
+			test.x = -1;
+		} else if(hldr.x <= -0.2) {
+			test.x = 1;
+		}
+
+		if(hldr.y >= 0.2) {
+			test.y = -1;
+		} else if( hldr.y <= -0.2) {
+			test.y = 1;
+		}
+	
+		if(test.x == 0 && test.y == 0) {
+			retVal = Random.Range(0, dir.Length);
+		} else {
+			
+			for(int i = 0; i < dir.Length; i++) {
+				if(test == dir[i]) {
+					retVal = i;
+				}
+			}
+
+			if(retVal == -1) {
+				if(test.x == 0 && test.y != 0) {
+					if(test.y == 1) {
+						retVal = 3;
+					} else {
+						retVal = 2;
+					}
+				} else if(test.x != 0 && test.y == 0) {
+					if(test.x == 1) {
+						retVal = 0;
+					} else {
+						retVal = 1;
+					}
+				}
+
+			}
+		}
+
+		return retVal;
+	}
+
 }

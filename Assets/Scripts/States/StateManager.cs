@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum GameStates { Loading, Menu, Main, GameOver, Settings }
+public enum GameStates { Loading, Menu, Main, GameOver, Settings, BackGroundRaw, BackGroundIMG }
 
 
 public class StateManager : MonoBehaviour {
@@ -27,7 +27,7 @@ public class StateManager : MonoBehaviour {
 			}
 		}
 
-
+		states[(int)GameStates.BackGroundRaw].SetActive(true);
 
 		ChangeState(GameStates.Loading);
 	}
