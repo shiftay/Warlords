@@ -16,6 +16,7 @@ public class smokeBG : MonoBehaviour {
     private bool scroll = true;
 	public RawImage _renderer;
 
+
     public void DoActivateTrigger()
     {
         scroll = !scroll;
@@ -63,6 +64,7 @@ public class smokeBG : MonoBehaviour {
 
 	int chooseDir() {
 		int retVal = -1;
+		Vector2 test = new Vector2(0,0);
 		//475.5,267.5
 		Rect hldr = _renderer.uvRect;
 
